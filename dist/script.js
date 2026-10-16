@@ -6,6 +6,8 @@ const categoryStage = document.getElementById('categoryStage');
 const categoryPreview = document.getElementById('categoryPreview');
 const categoryLinks = [...document.querySelectorAll('.category-link')];
 const hero = document.querySelector('.hero');
+const heroVisual = document.querySelector('.hero-visual');
+const heroImage = document.querySelector('.hero-image');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const appBase = location.pathname.startsWith('/inhousedesign/') ? '/inhousedesign/' : '/';
 
@@ -17,6 +19,8 @@ let smoothPointer = { ...pointer };
 let targetParallax = 0;
 let smoothParallax = 0;
 let animationFrame;
+
+heroImage.decode().catch(() => {}).then(() => heroVisual.classList.add('is-revealing'));
 
 function viewFromURL() {
   const view = new URL(location.href).searchParams.get('view');
