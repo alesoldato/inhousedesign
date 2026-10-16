@@ -12,6 +12,7 @@ const heroVisual = document.querySelector('.hero-visual');
 const heroImage = document.querySelector('.hero-image');
 const heroScrollCue = document.getElementById('heroScrollCue');
 const introScreen = document.getElementById('introScreen');
+const introLogo = introScreen.querySelector('.intro-logo');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const smoothScrollEnabled = !reduceMotion.matches && window.matchMedia('(min-width: 980px) and (pointer: fine)').matches;
 const appBase = location.pathname.startsWith('/inhousedesign/') ? '/inhousedesign/' : '/';
@@ -89,8 +90,9 @@ async function runIntro() {
     await wait(1450);
     await wait(1500);
     await heroImageReady;
+    const logoExitFinished = new Promise(resolve => introLogo.addEventListener('animationend', resolve, { once: true }));
     introScreen.classList.add('is-logo-exiting');
-    await wait(1100);
+    await logoExitFinished;
     const maskFinished = new Promise(resolve => introScreen.addEventListener('animationend', resolve, { once: true }));
     heroRevealStarted = true;
     await beginHeroReveal(true);
