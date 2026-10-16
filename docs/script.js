@@ -11,6 +11,7 @@ const heroTitle = document.querySelector('.hero-title');
 const heroVisual = document.querySelector('.hero-visual');
 const heroImage = document.querySelector('.hero-image');
 const heroScrollCue = document.getElementById('heroScrollCue');
+const introScreen = document.getElementById('introScreen');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const smoothScrollEnabled = !reduceMotion.matches && window.matchMedia('(min-width: 980px) and (pointer: fine)').matches;
 const appBase = location.pathname.startsWith('/inhousedesign/') ? '/inhousedesign/' : '/';
@@ -57,19 +58,45 @@ function scrollToSection(section, behavior = 'smooth') {
   else window.scrollTo({ top, behavior });
 }
 
-heroImage.decode().catch(() => {}).then(() => {
+const heroImageReady = heroImage.decode().catch(() => {});
+
+function beginHeroReveal() {
   requestAnimationFrame(() => requestAnimationFrame(() => {
     heroVisual.classList.add('is-revealing');
     heroTitle.classList.add('is-visible');
+    window.setTimeout(() => heroScrollCue.classList.add('is-visible'), 3000);
   }));
-});
-
-function scheduleScrollCue() {
-  window.setTimeout(() => heroScrollCue.classList.add('is-visible'), 3000);
 }
 
-if (document.readyState === 'complete') scheduleScrollCue();
-else window.addEventListener('load', scheduleScrollCue, { once: true });
+const wait = ms => new Promise(resolve => window.setTimeout(resolve, ms));
+
+async function runIntro() {
+  if (viewFromURL() !== 'home' || reduceMotion.matches) {
+    introScreen.remove();
+    document.body.classList.remove('is-intro');
+    await heroImageReady;
+    beginHeroReveal();
+    return;
+  }
+
+  try {
+    await document.fonts.ready;
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    introScreen.classList.add('is-visible');
+    await wait(1450);
+    await wait(1500);
+    await heroImageReady;
+    const exit = introScreen.animate([
+      { transform: 'translateY(0)' },
+      { transform: 'translateY(-100%)' }
+    ], { duration: 1100, easing: 'cubic-bezier(.76,0,.24,1)', fill: 'forwards' });
+    await exit.finished;
+  } finally {
+    introScreen.remove();
+    document.body.classList.remove('is-intro');
+    beginHeroReveal();
+  }
+}
 
 function viewFromURL() {
   const view = new URL(location.href).searchParams.get('view');
@@ -254,3 +281,4 @@ showView(viewFromURL());
 revealElements();
 updateParallax();
 animationFrame = requestAnimationFrame(animateFrame);
+runIntro();
