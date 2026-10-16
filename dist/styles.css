@@ -21,12 +21,12 @@ img{display:block}
 .site-nav--dark{color:var(--ink)}
 .hero{height:clamp(1150px,105.5vw,1600px);position:relative;color:var(--paper);isolation:isolate;overflow:hidden}
 .hero-art{position:absolute;inset:0;z-index:-1;overflow:hidden;background:#5b504a}
-.hero-visual{position:absolute;inset:0;overflow:hidden;clip-path:inset(0 0 100% 0);will-change:clip-path}
+.hero-visual{position:absolute;inset:0;overflow:hidden;clip-path:polygon(0 100%,100% 115%,100% 100%,0 100%);will-change:clip-path}
 .hero-visual.is-revealing{animation:hero-mask-reveal 1.65s cubic-bezier(.76,0,.24,1) both}
 .hero-image{position:absolute;width:143.4%;max-width:none;height:auto;left:-5.4%;top:0;will-change:transform,scale;transform:translate3d(0,var(--hero-image-y,0px),0);transform-origin:center center;scale:1.2}
 .hero-visual.is-revealing .hero-image{animation:hero-image-settle 2.3s var(--ease) both}
 .hero-shade{position:absolute;inset:0;background:rgba(0,0,0,.55)}
-@keyframes hero-mask-reveal{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes hero-mask-reveal{from{clip-path:polygon(0 100%,100% 115%,100% 100%,0 100%)}to{clip-path:polygon(0 -15%,100% 0,100% 100%,0 100%)}}
 @keyframes hero-image-settle{from{scale:1.2}to{scale:1}}
 .hero-body{position:relative;margin-top:clamp(220px,19.4vw,280px);padding:0 clamp(55px,6.94vw,100px)}
 .hero-title{margin:0 auto;width:min(1170px,100%);font-size:clamp(115px,12.5vw,180px);line-height:.86;letter-spacing:-.01em;font-weight:400;text-align:center;text-transform:uppercase}
@@ -36,6 +36,9 @@ img{display:block}
 .is-visible .line-content{transform:translate3d(0,0,0) rotate(0);opacity:1}
 .line-mask:nth-child(2) .line-content{transition-delay:.14s}
 .line-mask:nth-child(3) .line-content{transition-delay:.28s}
+.hero-title .line-content{transition-delay:.85s}
+.hero-title .line-mask:nth-child(2) .line-content{transition-delay:1s}
+.hero-title .line-mask:nth-child(3) .line-content{transition-delay:1.15s}
 .hero-intro{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;margin:clamp(130px,12.5vw,180px) auto 0;align-items:start}
 .hero-intro p{font-size:clamp(14px,1.18vw,17px);line-height:1.5;letter-spacing:.01em;margin:0}
 .hero-intro .hero-index{font-size:13px;letter-spacing:.02em;display:flex;align-items:center;gap:12px}

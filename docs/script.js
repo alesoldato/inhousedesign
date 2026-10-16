@@ -6,6 +6,7 @@ const categoryStage = document.getElementById('categoryStage');
 const categoryPreview = document.getElementById('categoryPreview');
 const categoryLinks = [...document.querySelectorAll('.category-link')];
 const hero = document.querySelector('.hero');
+const heroTitle = document.querySelector('.hero-title');
 const heroVisual = document.querySelector('.hero-visual');
 const heroImage = document.querySelector('.hero-image');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -20,7 +21,10 @@ let targetParallax = 0;
 let smoothParallax = 0;
 let animationFrame;
 
-heroImage.decode().catch(() => {}).then(() => heroVisual.classList.add('is-revealing'));
+heroImage.decode().catch(() => {}).then(() => {
+  heroVisual.classList.add('is-revealing');
+  heroTitle.classList.add('is-visible');
+});
 
 function viewFromURL() {
   const view = new URL(location.href).searchParams.get('view');
@@ -36,7 +40,7 @@ function revealElements() {
       }
     }
   }, { threshold: 0.14, rootMargin: '0px 0px -30px 0px' });
-  document.querySelectorAll('.hero-title, .closing-title, .reveal-copy').forEach(el => observer.observe(el));
+  document.querySelectorAll('.closing-title, .reveal-copy').forEach(el => observer.observe(el));
 }
 
 function animateFrame() {
