@@ -90,7 +90,7 @@ async function runIntro() {
     await wait(1500);
     await heroImageReady;
     introScreen.classList.add('is-logo-exiting');
-    await wait(1100);
+    await wait(900);
     const maskFinished = new Promise(resolve => introScreen.addEventListener('animationend', resolve, { once: true }));
     heroRevealStarted = true;
     await beginHeroReveal(true);
