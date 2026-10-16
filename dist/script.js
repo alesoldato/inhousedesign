@@ -7,6 +7,7 @@ const categoryPreview = document.getElementById('categoryPreview');
 const categoryLinks = [...document.querySelectorAll('.category-link')];
 const hero = document.querySelector('.hero');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const appBase = location.pathname.startsWith('/inhousedesign/') ? '/inhousedesign/' : '/';
 
 let currentView = 'home';
 let transitioning = false;
@@ -102,7 +103,7 @@ function showView(view, options = {}) {
 async function openDetail(view) {
   if (transitioning) return;
   transitioning = true;
-  history.pushState({ view }, '', `/?view=${view}`);
+  history.pushState({ view }, '', `${appBase}?view=${view}`);
   setDetailContent(view);
 
   if (reduceMotion.matches) {
@@ -122,7 +123,7 @@ async function openDetail(view) {
   flight.style.top = `${start.top}px`;
   flight.style.width = `${start.width}px`;
   flight.style.height = `${start.height}px`;
-  flight.innerHTML = '<img src="/assets/interior.jpg" alt="">';
+  flight.innerHTML = '<img src="assets/interior.jpg" alt="">';
   document.body.appendChild(flight);
   document.body.classList.add('is-transitioning');
   detailPage.classList.add('is-entering');
@@ -147,12 +148,12 @@ async function openDetail(view) {
 function navigateHome(section = 'home') {
   if (transitioning) return;
   if (currentView !== 'home') {
-    history.pushState({ view: 'home' }, '', section === 'home' ? '/' : `/#${section}`);
+    history.pushState({ view: 'home' }, '', section === 'home' ? appBase : `${appBase}#${section}`);
     showView('home', { scroll: false });
   } else if (section === 'home') {
-    history.pushState({ view: 'home' }, '', '/');
+    history.pushState({ view: 'home' }, '', appBase);
   } else {
-    history.pushState({ view: 'home' }, '', `/#${section}`);
+    history.pushState({ view: 'home' }, '', `${appBase}#${section}`);
   }
   requestAnimationFrame(() => {
     const target = document.getElementById(section);

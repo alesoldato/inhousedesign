@@ -1,5 +1,5 @@
-@font-face{font-family:Aeonik;src:url('/assets/fonts/Aeonik-Regular.ttf') format('truetype');font-style:normal;font-weight:400;font-display:swap}
-@font-face{font-family:Dalven;src:url('/assets/fonts/Dalven-Goofler-Italic.otf') format('opentype');font-style:italic;font-weight:400;font-display:swap}
+@font-face{font-family:Aeonik;src:url('assets/fonts/Aeonik-Regular.ttf') format('truetype');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:Dalven;src:url('assets/fonts/Dalven-Goofler-Italic.otf') format('opentype');font-style:italic;font-weight:400;font-display:swap}
 :root{--paper:#f8f6f1;--ink:#1c1917;--ease:cubic-bezier(.22,1,.36,1)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
