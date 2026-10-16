@@ -1,3 +1,4 @@
+const site = document.getElementById('site');
 const homePage = document.getElementById('homePage');
 const detailPage = document.getElementById('detailPage');
 const detailTitleFirst = document.getElementById('detailTitleFirst');
@@ -10,8 +11,10 @@ const heroTitle = document.querySelector('.hero-title');
 const heroVisual = document.querySelector('.hero-visual');
 const heroImage = document.querySelector('.hero-image');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const smoothScrollEnabled = !reduceMotion.matches && window.matchMedia('(min-width: 980px) and (pointer: fine)').matches;
 const appBase = location.pathname.startsWith('/inhousedesign/') ? '/inhousedesign/' : '/';
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if (smoothScrollEnabled) document.documentElement.classList.add('has-smooth-scroll');
 
 let currentView = 'home';
 let transitioning = false;
@@ -20,7 +23,38 @@ let pointer = { x: 920, y: 210 };
 let smoothPointer = { ...pointer };
 let targetParallax = 0;
 let smoothParallax = 0;
+let smoothScroll = window.scrollY;
+let renderedScroll = NaN;
+let maxScroll = 0;
+let lastFrameTime = 0;
 let animationFrame;
+
+function syncScrollHeight() {
+  if (!smoothScrollEnabled) return;
+  const height = site.scrollHeight;
+  document.body.style.height = `${height}px`;
+  maxScroll = Math.max(0, height - window.innerHeight);
+}
+
+function jumpTo(top) {
+  window.scrollTo({ top, behavior: 'instant' });
+  if (!smoothScrollEnabled) return;
+  smoothScroll = window.scrollY;
+  renderedScroll = smoothScroll;
+  site.style.transform = `translate3d(0,${-smoothScroll}px,0)`;
+}
+
+function scrollToSection(section, behavior = 'smooth') {
+  const target = document.getElementById(section);
+  if (!target) return;
+  if (!smoothScrollEnabled) {
+    target.scrollIntoView({ behavior, block: 'start' });
+    return;
+  }
+  const top = Math.max(0, target.getBoundingClientRect().top + smoothScroll);
+  if (behavior === 'instant') jumpTo(top);
+  else window.scrollTo({ top, behavior });
+}
 
 heroImage.decode().catch(() => {}).then(() => {
   requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -46,7 +80,19 @@ function revealElements() {
   document.querySelectorAll('.closing-title, .reveal-copy').forEach(el => observer.observe(el));
 }
 
-function animateFrame() {
+function animateFrame(now) {
+  if (smoothScrollEnabled) {
+    const delta = Math.min(64, now - (lastFrameTime || now));
+    const target = Math.min(window.scrollY, maxScroll);
+    const distance = target - smoothScroll;
+    smoothScroll = Math.abs(distance) < .1 ? target : smoothScroll + distance * (1 - Math.pow(.9, delta / 16.67));
+    if (smoothScroll !== renderedScroll) {
+      site.style.transform = `translate3d(0,${(-smoothScroll).toFixed(2)}px,0)`;
+      renderedScroll = smoothScroll;
+    }
+  }
+  lastFrameTime = now;
+  updateParallax();
   smoothParallax += (targetParallax - smoothParallax) * 0.085;
   if (!reduceMotion.matches) hero.style.setProperty('--hero-image-y', `${smoothParallax.toFixed(2)}px`);
 
@@ -58,7 +104,7 @@ function animateFrame() {
 }
 
 function updateParallax() {
-  targetParallax = Math.max(-220, -Math.min(window.scrollY, hero.offsetHeight) * 0.17);
+  targetParallax = Math.max(-220, -Math.min(smoothScrollEnabled ? smoothScroll : window.scrollY, hero.offsetHeight) * 0.17);
 }
 
 function updatePointer(event) {
@@ -107,7 +153,8 @@ function showView(view, options = {}) {
   detailPage.hidden = isHome;
   if (!isHome) setDetailContent(view);
   else document.title = 'Inhouse — Calm, conscious spaces';
-  if (options.scroll !== false) window.scrollTo({ top: 0, behavior: 'instant' });
+  syncScrollHeight();
+  if (options.scroll !== false) jumpTo(0);
   updateParallax();
 }
 
@@ -167,8 +214,7 @@ function navigateHome(section = 'home') {
     history.pushState({ view: 'home' }, '', `${appBase}#${section}`);
   }
   requestAnimationFrame(() => {
-    const target = document.getElementById(section);
-    if (target) target.scrollIntoView({ behavior: reduceMotion.matches ? 'instant' : 'smooth', block: 'start' });
+    scrollToSection(section, reduceMotion.matches ? 'instant' : 'smooth');
   });
 }
 
@@ -186,11 +232,15 @@ window.addEventListener('popstate', () => {
   showView(viewFromURL(), { scroll: false });
   const section = location.hash.slice(1);
   requestAnimationFrame(() => {
-    if (section && currentView === 'home') document.getElementById(section)?.scrollIntoView({ behavior: 'instant' });
-    else window.scrollTo({ top: 0, behavior: 'instant' });
+    if (section && currentView === 'home') scrollToSection(section, 'instant');
+    else jumpTo(0);
   });
 });
 window.addEventListener('scroll', updateParallax, { passive: true });
+if (smoothScrollEnabled) {
+  window.addEventListener('resize', syncScrollHeight);
+  if ('ResizeObserver' in window) new ResizeObserver(syncScrollHeight).observe(site);
+}
 
 showView(viewFromURL());
 revealElements();

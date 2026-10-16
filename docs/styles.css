@@ -10,6 +10,8 @@ button,a{-webkit-tap-highlight-color:transparent}
 img{display:block}
 [hidden]{display:none!important}
 .site{min-width:980px;overflow:hidden}
+.has-smooth-scroll{scroll-behavior:auto}
+.has-smooth-scroll .site{position:fixed;top:0;left:0;width:100%;will-change:transform}
 .site-nav{height:100px;width:100%;padding:0 clamp(34px,3.82vw,55px);display:flex;align-items:center;justify-content:space-between;position:relative;z-index:10}
 .site-nav .brand{display:block;width:119.39px;height:25.996px;flex:none}
 .site-nav .brand img{width:119.39px;height:25.996px}
