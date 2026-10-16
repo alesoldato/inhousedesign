@@ -105,7 +105,7 @@ async function runIntro() {
     });
     introScreen.classList.add('is-logo-exiting');
     await logoExitFinished;
-    await wait(300);
+    await wait(100);
     const maskFinished = new Promise(resolve => introScreen.addEventListener('animationend', resolve, { once: true }));
     heroRevealStarted = true;
     await beginHeroReveal(true);
