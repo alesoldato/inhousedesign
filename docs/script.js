@@ -10,6 +10,7 @@ const hero = document.querySelector('.hero');
 const heroTitle = document.querySelector('.hero-title');
 const heroVisual = document.querySelector('.hero-visual');
 const heroImage = document.querySelector('.hero-image');
+const heroScrollCue = document.getElementById('heroScrollCue');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const smoothScrollEnabled = !reduceMotion.matches && window.matchMedia('(min-width: 980px) and (pointer: fine)').matches;
 const appBase = location.pathname.startsWith('/inhousedesign/') ? '/inhousedesign/' : '/';
@@ -62,6 +63,13 @@ heroImage.decode().catch(() => {}).then(() => {
     heroTitle.classList.add('is-visible');
   }));
 });
+
+function scheduleScrollCue() {
+  window.setTimeout(() => heroScrollCue.classList.add('is-visible'), 3000);
+}
+
+if (document.readyState === 'complete') scheduleScrollCue();
+else window.addEventListener('load', scheduleScrollCue, { once: true });
 
 function viewFromURL() {
   const view = new URL(location.href).searchParams.get('view');
