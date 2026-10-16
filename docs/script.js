@@ -11,6 +11,7 @@ const heroVisual = document.querySelector('.hero-visual');
 const heroImage = document.querySelector('.hero-image');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const appBase = location.pathname.startsWith('/inhousedesign/') ? '/inhousedesign/' : '/';
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
 let currentView = 'home';
 let transitioning = false;
@@ -22,8 +23,10 @@ let smoothParallax = 0;
 let animationFrame;
 
 heroImage.decode().catch(() => {}).then(() => {
-  heroVisual.classList.add('is-revealing');
-  heroTitle.classList.add('is-visible');
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    heroVisual.classList.add('is-revealing');
+    heroTitle.classList.add('is-visible');
+  }));
 });
 
 function viewFromURL() {
