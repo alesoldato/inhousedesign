@@ -60,12 +60,14 @@ function scrollToSection(section, behavior = 'smooth') {
 
 const heroImageReady = heroImage.decode().catch(() => {});
 
-function beginHeroReveal() {
-  requestAnimationFrame(() => requestAnimationFrame(() => {
+function beginHeroReveal(withMask = false) {
+  return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (withMask) introScreen.classList.add('is-mask-revealing');
     heroVisual.classList.add('is-revealing');
     heroTitle.classList.add('is-visible');
     window.setTimeout(() => heroScrollCue.classList.add('is-visible'), 3000);
-  }));
+    resolve();
+  })));
 }
 
 const wait = ms => new Promise(resolve => window.setTimeout(resolve, ms));
@@ -79,22 +81,24 @@ async function runIntro() {
     return;
   }
 
+  let heroRevealStarted = false;
   try {
     await document.fonts.ready;
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     introScreen.classList.add('is-visible');
     await wait(1450);
     await wait(1500);
+    introScreen.classList.add('is-logo-exiting');
+    await wait(1100);
     await heroImageReady;
-    const exit = introScreen.animate([
-      { transform: 'translateY(0)' },
-      { transform: 'translateY(-100%)' }
-    ], { duration: 1100, easing: 'cubic-bezier(.76,0,.24,1)', fill: 'forwards' });
-    await exit.finished;
+    const maskFinished = new Promise(resolve => introScreen.addEventListener('animationend', resolve, { once: true }));
+    heroRevealStarted = true;
+    await beginHeroReveal(true);
+    await maskFinished;
   } finally {
     introScreen.remove();
     document.body.classList.remove('is-intro');
-    beginHeroReveal();
+    if (!heroRevealStarted) beginHeroReveal();
   }
 }
 
