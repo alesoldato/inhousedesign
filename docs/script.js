@@ -89,19 +89,19 @@ async function runIntro() {
     await wait(1450);
     await wait(1500);
     await heroImageReady;
-    const lastLogoWord = introScreen.querySelector('.line-mask:nth-child(2) .line-content');
+    const logo = introScreen.querySelector('.intro-logo');
     const logoExitFinished = new Promise(resolve => {
       let fallback;
       const finish = () => {
-        lastLogoWord.removeEventListener('transitionend', onEnd);
+        logo.removeEventListener('transitionend', onEnd);
         window.clearTimeout(fallback);
         resolve();
       };
       const onEnd = event => {
         if (event.propertyName === 'transform') finish();
       };
-      lastLogoWord.addEventListener('transitionend', onEnd);
-      fallback = window.setTimeout(finish, 1100);
+      logo.addEventListener('transitionend', onEnd);
+      fallback = window.setTimeout(finish, 1000);
     });
     introScreen.classList.add('is-logo-exiting');
     await logoExitFinished;
