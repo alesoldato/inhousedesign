@@ -13,7 +13,9 @@ const categoryPreview = document.getElementById('categoryPreview');
 const categoryLinks = [...document.querySelectorAll('.category-link')];
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const smoothScrollEnabled = !reduceMotion.matches && window.matchMedia('(min-width: 980px) and (pointer: fine)').matches;
-const appBase = new URL('.', location.href).pathname;
+const appBase = location.protocol === 'file:'
+  ? new URL('index.html', location.href).href
+  : new URL('.', location.href).pathname;
 const wait = ms => new Promise(resolve => window.setTimeout(resolve, ms));
 const twoFrames = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
@@ -598,6 +600,7 @@ categoryLinks.forEach(link => {
   });
   link.addEventListener('blur', () => categoryPreview.classList.remove('is-active'));
   link.addEventListener('click', event => {
+    if (location.protocol === 'file:') return;
     event.preventDefault();
     navigate({ page: 'portfolio', category: link.dataset.category }, categoryPreview.classList.contains('is-active') ? categoryPreview : null);
   });
@@ -605,7 +608,7 @@ categoryLinks.forEach(link => {
 
 document.addEventListener('click', event => {
   const link = event.target.closest('a[data-route],a[data-home],a[data-project],a[data-service],a[data-filter]');
-  if (!link || link.classList.contains('category-link') || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+  if (!link || location.protocol === 'file:' || link.classList.contains('category-link') || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
   event.preventDefault();
   if (link.dataset.project) {
     navigate({ page: 'project', slug: link.dataset.project }, link);
