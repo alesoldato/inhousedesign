@@ -2,7 +2,9 @@
 
 [Open the live website](https://alesoldato.github.io/inhousedesign/)
 
-The desktop site is in [`docs/`](docs/) and mirrored in [`dist/`](dist/). GitHub Pages publishes `docs/` from `main`, so the live site stays on the existing version while the new pages are reviewed on the `site-pages` branch.
+[Open the `site-pages` live preview](https://alesoldato.github.io/inhousedesign-preview/)
+
+The desktop site is in [`docs/`](docs/) and mirrored in [`dist/`](dist/). The original GitHub Pages site publishes `docs/` from `main`. The separate [preview repository](https://github.com/alesoldato/inhousedesign-preview) mirrors this branch and publishes its `docs/` folder, keeping the original live site unchanged.
 
 Open `docs/index.html` through a local static server to review the branch. Example: `python3 -m http.server 4175 -d docs`.
 
