@@ -13,7 +13,7 @@ const categoryPreview = document.getElementById('categoryPreview');
 const categoryLinks = [...document.querySelectorAll('.category-link')];
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const smoothScrollEnabled = !reduceMotion.matches && window.matchMedia('(min-width: 980px) and (pointer: fine)').matches;
-const appBase = location.pathname.startsWith('/inhousedesign/') ? '/inhousedesign/' : '/';
+const appBase = new URL('.', location.href).pathname;
 const wait = ms => new Promise(resolve => window.setTimeout(resolve, ms));
 const twoFrames = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
