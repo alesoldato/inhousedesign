@@ -9,7 +9,8 @@
     <link rel="preload" href="assets/fonts/Aeonik-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="assets/fonts/Dalven-Goofler-Italic.otf" as="font" type="font/otf" crossorigin />
     <link rel="stylesheet" href="styles.css?v=brown-mask-intro-3" />
-    <script src="script.js?v=brown-mask-intro-6" defer></script>
+    <link rel="stylesheet" href="pages.css?v=site-pages-1" />
+    <script src="script.js?v=site-pages-1" defer></script>
   </head>
   <body class="is-intro">
     <div class="intro-screen" id="introScreen" role="img" aria-label="inhouse design">
@@ -34,10 +35,10 @@
             <a class="brand" href="./" data-home aria-label="Inhouse, home"><img src="assets/logo-light.svg" alt="Inhouse" /></a>
             <nav aria-label="Main navigation">
               <a href="./" data-home>Home</a>
-              <a href="#portfolio" data-scroll="portfolio">Portfolio</a>
-              <a href="#services" data-scroll="services">Services</a>
-              <a href="#about" data-scroll="about">About Us</a>
-              <a href="#contacts" data-scroll="contacts">Contacts</a>
+              <a href="?page=portfolio" data-route="portfolio">Portfolio</a>
+              <a href="?page=services" data-route="services">Services</a>
+              <a href="?page=about" data-route="about">About Us</a>
+              <a href="?page=contact" data-route="contact">Contacts</a>
             </nav>
           </header>
 
@@ -66,8 +67,8 @@
             <div class="category-stage" id="categoryStage">
               <div class="category-preview" id="categoryPreview" aria-hidden="true"><img src="assets/interior.jpg" alt="" /></div>
               <div class="category-links">
-                <a class="category-link" href="?view=residential" data-category="residential"><span>Residential</span><sup>07</sup></a>
-                <a class="category-link" href="?view=commercial" data-category="commercial"><span>Commercial</span><sup>04</sup></a>
+                <a class="category-link" href="?page=portfolio&amp;category=residential" data-category="residential"><span>Residential</span><sup>07</sup></a>
+                <a class="category-link" href="?page=portfolio&amp;category=commercial" data-category="commercial"><span>Commercial</span><sup>04</sup></a>
               </div>
             </div>
           </div>
@@ -81,38 +82,13 @@
           </h2>
           <div class="closing-bottom" id="contacts">
             <p>Thoughtful residential and commercial interiors, shaped around the people who use them.</p>
-            <a href="mailto:hello@inhouseinteriors.com">Start a conversation <span aria-hidden="true">↗</span></a>
+            <a href="?page=contact" data-route="contact">Start a conversation <span aria-hidden="true">↗</span></a>
           </div>
         </section>
       </main>
 
-      <main class="page-detail" id="detailPage" hidden>
-        <header class="site-nav site-nav--dark">
-          <a class="brand" href="./" data-home aria-label="Inhouse, home"><img src="assets/logo-dark.svg" alt="Inhouse" /></a>
-          <nav aria-label="Main navigation">
-            <a href="./" data-home>Home</a>
-            <a href="#portfolio" data-scroll="portfolio">Portfolio</a>
-            <a href="#services" data-scroll="services">Services</a>
-            <a href="#about" data-scroll="about">About Us</a>
-            <a href="#contacts" data-scroll="contacts">Contacts</a>
-          </nav>
-        </header>
-
-        <div class="detail-layout">
-          <h1 class="detail-title" id="detailTitle">
-            <span class="line-mask"><span class="line-content" id="detailTitleFirst">Residential</span></span>
-            <span class="line-mask"><span class="line-content line-content--italic">Interiors</span></span>
-          </h1>
-          <div class="detail-feature">
-            <div class="detail-image" id="detailImage"><img src="assets/interior.jpg" alt="A warm, dark interior with stone flooring and timber detailing" /></div>
-            <div class="detail-aside">
-              <h2 class="detail-project">Project<br />Name</h2>
-              <p>Creating calm, conscious spaces through considered material, light, and proportion.</p>
-            </div>
-          </div>
-          <a class="detail-back" href="./#portfolio" data-scroll="portfolio"><span aria-hidden="true">←</span> Back to portfolio</a>
-        </div>
-      </main>
+      <main class="page-content" id="contentPage" hidden></main>
     </div>
+    <div class="route-curtain" id="routeCurtain" aria-hidden="true"></div>
   </body>
 </html>
