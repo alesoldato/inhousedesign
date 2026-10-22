@@ -179,7 +179,7 @@ function projectFeature(project, index) {
     <div class="project-feature-shade"></div>
     <div class="project-feature-copy">
       <span class="project-feature-index">${String(index + 1).padStart(2, '0')} / ${project.category}</span>
-      <h2>${project.title}</h2>
+      <h2><span class="project-name-mask"><span class="project-name-inner">${project.title}</span></span></h2>
       <span class="project-feature-type">${project.type} <span aria-hidden="true">↗</span></span>
     </div>
   </a>`;
@@ -379,6 +379,68 @@ let maxScroll = 0;
 let lastFrameTime = 0;
 let revealObserver;
 let parallaxMedia = [];
+const paragraphText = new WeakMap();
+let paragraphResizeTimer;
+
+function prepareParagraphs(root) {
+  if (reduceMotion.matches) return;
+  root.querySelectorAll('p:not(.eyebrow):not(.large-statement):not(.footer-main p)').forEach(paragraph => {
+    if (!paragraphText.has(paragraph)) {
+      if (paragraph.children.length) return;
+      paragraphText.set(paragraph, paragraph.textContent.replace(/\s+/g, ' ').trim());
+    }
+    const content = paragraphText.get(paragraph);
+    paragraph.classList.add('paragraph-reveal', 'is-resplitting');
+    paragraph.textContent = content;
+    const node = paragraph.firstChild;
+    const range = document.createRange();
+    const lines = [];
+    let previousTop = null;
+    for (const match of content.matchAll(/\S+/g)) {
+      range.setStart(node, match.index);
+      range.setEnd(node, match.index + match[0].length);
+      const top = range.getBoundingClientRect().top;
+      if (previousTop === null || Math.abs(top - previousTop) > 2) lines.push([]);
+      lines[lines.length - 1].push(match[0]);
+      previousTop = top;
+    }
+    const fragment = document.createDocumentFragment();
+    lines.forEach((words, index) => {
+      const mask = document.createElement('span');
+      const inner = document.createElement('span');
+      mask.className = 'paragraph-line';
+      inner.className = 'paragraph-line-inner';
+      inner.style.setProperty('--line-index', index);
+      inner.textContent = words.join(' ');
+      mask.appendChild(inner);
+      fragment.appendChild(mask);
+      if (index < lines.length - 1) fragment.appendChild(document.createTextNode(' '));
+    });
+    paragraph.replaceChildren(fragment);
+    requestAnimationFrame(() => paragraph.classList.remove('is-resplitting'));
+  });
+}
+
+function armProjectName(card) {
+  if (card.dataset.nameArmed) return;
+  card.dataset.nameArmed = 'true';
+  const media = card.querySelector('.home-work-media, .project-feature-media');
+  const image = media?.querySelector('img');
+  const imageReady = image?.decode().catch(() => {}) || Promise.resolve();
+  const maskReady = reduceMotion.matches ? Promise.resolve() : new Promise(resolve => {
+    const fallback = window.setTimeout(finish, 1750);
+    function finish() {
+      window.clearTimeout(fallback);
+      media.removeEventListener('transitionend', onEnd);
+      resolve();
+    }
+    function onEnd(event) {
+      if (event.target === media && event.propertyName === 'clip-path') finish();
+    }
+    media.addEventListener('transitionend', onEnd);
+  });
+  Promise.all([imageReady, maskReady]).then(() => card.classList.add('is-media-ready'));
+}
 
 function syncScrollHeight() {
   if (!smoothScrollEnabled) return;
@@ -398,19 +460,23 @@ function jumpTo(top) {
 function observeReveals() {
   if (revealObserver) revealObserver.disconnect();
   if (reduceMotion.matches) {
-    document.querySelectorAll('.page-reveal, .image-reveal, .closing-title, .reveal-copy, .home-statement, .home-work, .home-image-mask').forEach(el => el.classList.add('is-visible'));
+    document.querySelectorAll('.page-reveal, .image-reveal, .closing-title, .reveal-copy, .home-statement, .home-work, .home-image-mask, .paragraph-reveal').forEach(el => {
+      el.classList.add('is-visible');
+      if (el.matches('.home-work, .project-feature')) armProjectName(el);
+    });
     return;
   }
   revealObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        if (entry.target.matches('.home-work, .project-feature')) armProjectName(entry.target);
         entry.target.classList.add('is-visible');
         revealObserver.unobserve(entry.target);
       }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -35px 0px' });
   const root = currentRoute.page === 'home' ? homePage : contentPage;
-  root.querySelectorAll('.page-reveal, .image-reveal, .closing-title, .reveal-copy, .home-statement, .home-work, .home-image-mask').forEach(el => revealObserver.observe(el));
+  root.querySelectorAll('.page-reveal, .image-reveal, .closing-title, .reveal-copy, .home-statement, .home-work, .home-image-mask, .paragraph-reveal').forEach(el => revealObserver.observe(el));
 }
 
 function activatePageMotion() {
@@ -444,6 +510,7 @@ function renderRoute(route, { activate = true, scroll = true } = {}) {
   document.title = titleFor(route);
   document.body.dataset.page = route.page;
   closeMobileMenu();
+  prepareParagraphs(isHome ? homePage : contentPage);
   parallaxMedia = [...(isHome ? homePage : contentPage).querySelectorAll('.home-work-media, .project-feature-media, .image-reveal, .related-card, .next-project-media')];
   if (scroll) jumpTo(0);
   syncScrollHeight();
@@ -578,7 +645,7 @@ async function runIntro() {
     });
     introScreen.classList.add('is-logo-exiting');
     await logoExitFinished;
-    await wait(100);
+    await wait(50);
     const maskFinished = new Promise(resolve => introScreen.addEventListener('animationend', resolve, { once: true }));
     heroRevealStarted = true;
     await beginHeroReveal(true);
@@ -597,9 +664,15 @@ function updateServicePointer(event) {
   pointer.y = 0;
 }
 
-homeServiceRows.forEach(link => {
+const servicePreviewImages = [...homeServicePreview.querySelectorAll('img')];
+function showServicePreview(index) {
+  servicePreviewImages.forEach((image, imageIndex) => image.classList.toggle('is-current', imageIndex === index));
+}
+
+homeServiceRows.forEach((link, index) => {
   link.addEventListener('pointerenter', event => {
     updateServicePointer(event);
+    showServicePreview(index);
     if (!homeServicePreview.classList.contains('is-active')) smoothPointer = { ...pointer };
     homeServicePreview.classList.add('is-active');
   });
@@ -608,6 +681,7 @@ homeServiceRows.forEach(link => {
   link.addEventListener('focus', () => {
     const rect = link.getBoundingClientRect();
     updateServicePointer({ clientX: rect.left + rect.width / 2 });
+    showServicePreview(index);
     smoothPointer = { ...pointer };
     homeServicePreview.classList.add('is-active');
   });
@@ -628,6 +702,11 @@ document.addEventListener('keydown', event => {
 
 window.addEventListener('resize', () => {
   if (window.innerWidth > 979 && !mobileMenu.hidden) closeMobileMenu();
+  window.clearTimeout(paragraphResizeTimer);
+  paragraphResizeTimer = window.setTimeout(() => {
+    prepareParagraphs(currentRoute.page === 'home' ? homePage : contentPage);
+    syncScrollHeight();
+  }, 180);
 });
 
 document.addEventListener('click', event => {
@@ -703,4 +782,8 @@ function animateFrame(now) {
   }
   requestAnimationFrame(animateFrame);
   runIntro();
+  document.fonts.ready.then(() => {
+    prepareParagraphs(currentRoute.page === 'home' ? homePage : contentPage);
+    syncScrollHeight();
+  });
 })();
