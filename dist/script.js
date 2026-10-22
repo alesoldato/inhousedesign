@@ -3,6 +3,7 @@ const homePage = document.getElementById('homePage');
 const contentPage = document.getElementById('contentPage');
 const introScreen = document.getElementById('introScreen');
 const routeCurtain = document.getElementById('routeCurtain');
+const mobileMenu = document.getElementById('mobileMenu');
 const hero = document.querySelector('.hero');
 const heroTitle = document.getElementById('heroTitle');
 const heroVisual = document.querySelector('.hero-visual');
@@ -123,10 +124,12 @@ function navigation(active, dark = false) {
   return `<header class="site-nav site-nav--${dark ? 'dark' : 'light'} page-nav">
     <a class="brand" href="${appBase}" data-home aria-label="Inhouse, home">
       <img src="${asset(dark ? 'logo-dark.svg' : 'logo-light.svg')}" alt="Inhouse" />
+      <span class="mobile-brand" aria-hidden="true"><span>inhouse</span><em>design</em></span>
     </a>
     <nav aria-label="Main navigation">
       ${links.map(([label, page]) => `<a href="${pageHref(page)}" data-route="${page}"${active === page ? ' aria-current="page"' : ''}>${label}</a>`).join('')}
     </nav>
+    <button class="mobile-menu-toggle" type="button" aria-controls="mobileMenu" aria-expanded="false">Menu</button>
   </header>`;
 }
 
@@ -440,6 +443,7 @@ function renderRoute(route, { activate = true, scroll = true } = {}) {
   }
   document.title = titleFor(route);
   document.body.dataset.page = route.page;
+  closeMobileMenu();
   parallaxMedia = [...(isHome ? homePage : contentPage).querySelectorAll('.home-work-media, .project-feature-media, .image-reveal, .related-card, .next-project-media')];
   if (scroll) jumpTo(0);
   syncScrollHeight();
@@ -513,6 +517,20 @@ async function navigate(route, source = null) {
     transitioning = false;
     syncScrollHeight();
   }
+}
+
+function closeMobileMenu() {
+  mobileMenu.classList.remove('is-open');
+  mobileMenu.hidden = true;
+  document.body.classList.remove('is-menu-open');
+  document.querySelectorAll('.mobile-menu-toggle').forEach(button => button.setAttribute('aria-expanded', 'false'));
+}
+
+function openMobileMenu() {
+  mobileMenu.hidden = false;
+  document.body.classList.add('is-menu-open');
+  document.querySelectorAll('.mobile-menu-toggle').forEach(button => button.setAttribute('aria-expanded', 'true'));
+  requestAnimationFrame(() => mobileMenu.classList.add('is-open'));
 }
 
 function beginHeroReveal(withMask = false) {
@@ -597,9 +615,26 @@ homeServiceRows.forEach(link => {
 });
 
 document.addEventListener('click', event => {
+  if (event.target.closest('.mobile-menu-toggle')) {
+    if (mobileMenu.hidden) openMobileMenu(); else closeMobileMenu();
+  } else if (event.target.closest('.mobile-menu-close')) {
+    closeMobileMenu();
+  }
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !mobileMenu.hidden) closeMobileMenu();
+});
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 979 && !mobileMenu.hidden) closeMobileMenu();
+});
+
+document.addEventListener('click', event => {
   const link = event.target.closest('a[data-route],a[data-home],a[data-project],a[data-service],a[data-filter]');
   if (!link || location.protocol === 'file:' || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
   event.preventDefault();
+  closeMobileMenu();
   if (link.dataset.project) {
     navigate({ page: 'project', slug: link.dataset.project }, link);
   } else if (link.dataset.service) {

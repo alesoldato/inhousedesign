@@ -182,3 +182,99 @@
 .image-reveal.is-visible img{transform:translate3d(0,var(--image-parallax,0px),0) scale(1.035)}
 .project-feature:hover .project-feature-media img{transform:translate3d(0,var(--image-parallax,0px),0) scale(1.075)}
 @media(prefers-reduced-motion:reduce){.project-feature-media,.image-reveal{clip-path:none!important;transition:none!important}.project-feature-media img,.image-reveal img,.image-reveal.is-visible img{transform:none!important}}
+
+@media(max-width:979px){
+  :root{--page-gutter:24px}
+  .page-nav{height:70px}
+  .editorial-hero{height:100svh;min-height:700px}
+  .editorial-hero-media{inset:-3% 0}
+  .editorial-hero-inner{padding:130px 24px 40px;justify-content:flex-end}
+  .editorial-hero .eyebrow{margin-bottom:30px}
+  .editorial-title{max-width:100%;font-size:clamp(54px,15vw,75px);line-height:.89;letter-spacing:-.035em;overflow-wrap:anywhere}
+  .editorial-hero-bottom{margin-top:40px;display:block;font-size:15px}
+  .editorial-hero-bottom p{max-width:300px}
+  .editorial-hero-bottom>span{display:block;margin-top:35px}
+  .page-pad{padding-left:24px;padding-right:24px}
+  .editorial-intro,.portfolio-intro,.project-intro{display:block;padding-top:100px;padding-bottom:110px}
+  .editorial-intro>div,.portfolio-intro-main,.project-intro-main{margin-top:50px}
+  .large-statement{font-size:clamp(38px,10vw,52px);line-height:1.08}
+  .statement-title{font-size:clamp(54px,14vw,74px)}
+  .body-copy{font-size:17px;line-height:1.5}
+  .editorial-intro .body-copy,.portfolio-intro .body-copy{max-width:none;margin:42px 0 0}
+  .portfolio-intro{padding-bottom:0}
+  .portfolio-filters{gap:30px;margin-top:75px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+  .portfolio-filters::-webkit-scrollbar{display:none}
+  .portfolio-filters a{font-size:20px;padding:22px 0}
+  .project-feature{height:75svh;min-height:620px}
+  .project-feature-copy{left:24px;right:24px;bottom:50px}
+  .project-feature h2{font-size:clamp(56px,14vw,76px);overflow-wrap:anywhere}
+  .project-intro .large-statement{max-width:none}
+  .project-meta{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:60px}
+  .project-wide-image{height:520px}
+  .project-story{display:block;padding-top:110px;padding-bottom:110px}
+  .project-story>div{margin-top:55px}
+  .project-story .body-copy{margin:35px 0 0}
+  .project-detail-grid{display:block;padding-bottom:110px}
+  .project-detail-image{height:560px}
+  .project-scope{margin-top:60px}
+  .project-scope p{font-size:30px;margin-top:35px}
+  .next-project{height:65svh;min-height:580px;padding:55px 24px}
+  .next-project h2{font-size:clamp(56px,14vw,74px)}
+  .next-project h2 span{font-size:35px}
+  .service-list{padding-bottom:110px}
+  .service-list-heading{font-size:13px}
+  .service-row{display:block;min-height:0;padding:55px 0 65px}
+  .service-row-image{height:470px}
+  .service-row-copy{padding:35px 0 0}
+  .service-row h3{font-size:clamp(56px,14vw,72px);margin:35px 0 30px}
+  .service-row p{font-size:17px;max-width:none}
+  .service-row b{right:0;bottom:0}
+  .process-section{display:block;padding-top:110px;padding-bottom:110px}
+  .process-main{margin-top:60px}
+  .process-steps{margin-top:65px}
+  .process-steps>div{grid-template-columns:40px minmax(0,1fr);gap:15px;padding:25px 0 45px}
+  .process-steps h3{font-size:36px}
+  .process-steps p{grid-column:2;font-size:16px}
+  .service-detail-visual{display:block;padding:90px 24px}
+  .service-detail-primary{height:520px}
+  .service-detail-secondary{height:380px;width:72%;margin:40px 0 0 auto}
+  .service-scope{display:block;padding-top:110px;padding-bottom:110px}
+  .service-scope>div{margin-top:50px}
+  .service-scope ul{margin-top:65px}
+  .service-scope li{font-size:25px;gap:20px}
+  .related-work{padding-bottom:110px}
+  .related-heading{gap:25px}
+  .related-grid{display:block;margin-top:50px}
+  .related-card+.related-card{margin-top:55px}
+  .related-card img{height:420px}
+  .related-card span{font-size:28px}
+  .about-image-band{height:570px}
+  .about-philosophy{display:block;padding-top:110px;padding-bottom:110px}
+  .about-philosophy .statement-title{margin-top:55px}
+  .about-philosophy-copy{font-size:26px;padding-top:60px}
+  .about-philosophy-copy p{margin-bottom:35px}
+  .about-values{padding-top:110px;padding-bottom:110px}
+  .values-list{display:block;margin-top:65px}
+  .values-list>div+div{margin-top:50px}
+  .values-list h3{font-size:56px;margin:35px 0 20px}
+  .values-list p{font-size:17px}
+  .about-pair{display:block;padding-top:100px;padding-bottom:110px}
+  .about-pair img,.about-pair img:first-child{height:520px}
+  .about-pair img+img{margin-top:45px}
+  .contact-frame{min-height:0;padding:120px 24px 65px}
+  .contact-marquee{font-size:130px;top:170px;left:-50px}
+  .contact-portrait{position:relative;top:auto;left:auto;transform:none;width:72%;height:400px;margin:65px auto 80px}
+  .contact-lead,.contact-details{position:relative;bottom:auto;left:auto;right:auto;width:100%}
+  .contact-lead h1{font-size:clamp(65px,17vw,85px)}
+  .contact-lead p,.contact-details p{max-width:none;font-size:17px}
+  .contact-details{margin-top:75px}
+  .contact-details>a{font-size:18px;white-space:normal}
+  .contact-bottom{position:relative;left:auto;right:auto;bottom:auto;margin-top:100px;gap:25px}
+  .site-footer{background:#6d6057;padding:60px 24px 40px}
+  .footer-top,.footer-bottom{font-size:13px;gap:20px}
+  .footer-main{display:block;margin:110px 0}
+  .footer-main p{font-size:clamp(68px,17vw,90px)}
+  .footer-main>a{display:inline-flex;font-size:30px;margin-top:60px;gap:50px}
+  .footer-bottom{display:block}
+  .footer-bottom nav{display:flex;flex-wrap:wrap;gap:15px 25px;margin:35px 0}
+}
