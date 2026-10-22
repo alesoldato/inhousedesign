@@ -744,7 +744,7 @@ function animateFrame(now) {
     const delta = Math.min(64, now - (lastFrameTime || now));
     const target = Math.min(window.scrollY, maxScroll);
     const distance = target - smoothScroll;
-    smoothScroll = Math.abs(distance) < .1 ? target : smoothScroll + distance * (1 - Math.pow(.9, delta / 16.67));
+    smoothScroll = Math.abs(distance) < .1 ? target : smoothScroll + distance * (1 - Math.pow(.94, delta / 16.67));
     if (smoothScroll !== renderedScroll) {
       site.style.transform = `translate3d(0,${(-smoothScroll).toFixed(2)}px,0)`;
       renderedScroll = smoothScroll;
