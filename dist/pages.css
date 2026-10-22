@@ -174,3 +174,11 @@
   .editorial-hero-media img,.editorial-hero.is-visible .editorial-hero-media img{transform:none!important;animation:none!important}
   .page-line-content,.editorial-hero.is-visible .page-line-content,.page-reveal,.image-reveal img,.editorial-hero .eyebrow,.editorial-hero-bottom{transition:none!important;transform:none!important;opacity:1!important}
 }
+
+/* Project imagery enters behind a rising mask and drifts subtly on scroll. */
+.project-feature-media,.image-reveal{clip-path:inset(0 0 100% 0);transition:clip-path 1.45s cubic-bezier(.76,0,.24,1)}
+.project-feature.is-visible .project-feature-media,.image-reveal.is-visible{clip-path:inset(0 0 0 0)}
+.project-feature-media img,.image-reveal img{position:relative;top:-5%;height:110%;transform:translate3d(0,var(--image-parallax,0px),0) scale(1.035);will-change:transform}
+.image-reveal.is-visible img{transform:translate3d(0,var(--image-parallax,0px),0) scale(1.035)}
+.project-feature:hover .project-feature-media img{transform:translate3d(0,var(--image-parallax,0px),0) scale(1.075)}
+@media(prefers-reduced-motion:reduce){.project-feature-media,.image-reveal{clip-path:none!important;transition:none!important}.project-feature-media img,.image-reveal img,.image-reveal.is-visible img{transform:none!important}}

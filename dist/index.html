@@ -8,9 +8,9 @@
     <title>Inhouse — Calm, conscious spaces</title>
     <link rel="preload" href="assets/fonts/Aeonik-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="assets/fonts/Dalven-Goofler-Italic.otf" as="font" type="font/otf" crossorigin />
-    <link rel="stylesheet" href="styles.css?v=brown-mask-intro-3" />
+    <link rel="stylesheet" href="styles.css?v=figma-home-1" />
     <link rel="stylesheet" href="pages.css?v=site-pages-1" />
-    <script src="script.js?v=site-pages-3" defer></script>
+    <script src="script.js?v=figma-home-1" defer></script>
   </head>
   <body class="is-intro">
     <div class="intro-screen" id="introScreen" role="img" aria-label="inhouse design">
@@ -26,7 +26,7 @@
         <section class="hero" id="home" aria-labelledby="heroTitle">
           <div class="hero-art" aria-hidden="true">
             <div class="hero-visual">
-              <img class="hero-image" src="assets/hero.png" alt="" fetchpriority="high" />
+              <img class="hero-image" src="assets/figma/hero-marble.png" alt="" fetchpriority="high" />
               <div class="hero-shade"></div>
             </div>
           </div>
@@ -42,9 +42,7 @@
             </nav>
           </header>
 
-          <div class="hero-scroll-cue" id="heroScrollCue">
-            <span>Scroll to explore</span><span class="hero-scroll-cue-arrow" aria-hidden="true">↓</span>
-          </div>
+          <div class="hero-scroll-cue" id="heroScrollCue"><span>Scroll to Explore</span></div>
 
           <div class="hero-body">
             <h1 class="hero-title" id="heroTitle" aria-label="Calm conscious spaces">
@@ -53,30 +51,56 @@
               <span class="line-mask"><span class="line-content">Spaces</span></span>
             </h1>
 
-            <div class="hero-intro">
-              <p class="hero-index">01 <span></span> Inhouse Interiors</p>
-              <p class="reveal-copy">At Inhouse, we design interiors that breathe — light-filled, sustainable, and deeply personal.</p>
-              <div class="hero-categories"><span>Residential <sup>07</sup></span><span>Commercial <sup>04</sup></span></div>
-            </div>
+            <p class="hero-description reveal-copy">Creating calm, conscious spaces for the way we live.</p>
+            <a class="hero-contact" href="?page=contact" data-route="contact">Let’s talk</a>
           </div>
         </section>
 
-        <section class="categories" id="portfolio" aria-labelledby="categoriesTitle">
-          <div class="categories-inner">
-            <p class="categories-intro reveal-copy" id="categoriesTitle">Creating calm, conscious spaces.<br />Interiors with intention, designed to feel like yours.</p>
-            <div class="category-stage" id="categoryStage">
-              <div class="category-preview" id="categoryPreview" aria-hidden="true"><img src="assets/interior.jpg" alt="" /></div>
-              <div class="category-links">
-                <a class="category-link" href="?page=portfolio&amp;category=residential" data-category="residential"><span>Residential</span><sup>07</sup></a>
-                <a class="category-link" href="?page=portfolio&amp;category=commercial" data-category="commercial"><span>Commercial</span><sup>04</sup></a>
-              </div>
+        <section class="home-works" id="portfolio" aria-labelledby="homeWorksTitle">
+          <div class="home-editorial-inner">
+            <div class="home-split home-works-heading">
+              <div></div>
+              <h2 class="home-statement" id="homeWorksTitle"><span class="line-mask"><span class="line-content">Calm</span></span><span class="line-mask"><span class="line-content">Conscious</span></span><span class="line-mask"><span class="line-content line-content--italic">Spaces</span></span></h2>
             </div>
+            <div class="home-split home-works-lede">
+              <p class="home-small-copy reveal-copy">Considered spaces, shaped around how people live.</p>
+              <p class="home-large-copy reveal-copy">We design private homes for clients who want every detail considered: the proportion of a doorway, the stone under a hand, where the light falls at nine in the evening.</p>
+            </div>
+            <div class="home-works-gallery" aria-label="Selected projects">
+              <a class="home-work home-work--one" href="?page=project&amp;slug=morrow-house" data-project="morrow-house" aria-label="View Morrow House project"><span class="home-work-media"><img src="assets/figma/work-chair.png" alt="Curved dining chair in warm light" loading="lazy" /></span><span class="home-work-caption">Selected Works <span aria-hidden="true">↗</span></span></a>
+              <a class="home-work home-work--two" href="?page=project&amp;slug=cedar-residence" data-project="cedar-residence" aria-label="View Cedar Residence project"><span class="home-work-media"><img src="assets/figma/work-table.png" alt="Marble coffee table with sculptural vase" loading="lazy" /></span><span class="home-work-caption">Selected Works <span aria-hidden="true">↗</span></span></a>
+              <a class="home-work home-work--three" href="?page=project&amp;slug=solace-suite" data-project="solace-suite" aria-label="View Solace Suite project"><span class="home-work-media"><img src="assets/figma/work-living.png" alt="Quiet living room detail with leather bench" loading="lazy" /></span><span class="home-work-caption">Selected Works <span aria-hidden="true">↗</span></span></a>
+              <a class="home-work home-work--four" href="?page=project&amp;slug=atelier-hotel" data-project="atelier-hotel" aria-label="View Atelier Hotel project"><span class="home-work-media"><img src="assets/figma/work-bench.png" alt="Soft sofa and considered objects" loading="lazy" /></span><span class="home-work-caption">Selected Works <span aria-hidden="true">↗</span></span></a>
+            </div>
+            <div class="home-split home-section-link"><div></div><a href="?page=portfolio" data-route="portfolio">All Works <span aria-hidden="true">↗</span></a></div>
           </div>
         </section>
 
-        <section class="closing" id="services">
+        <section class="home-services" id="services" aria-labelledby="homeServicesTitle">
+          <div class="home-editorial-inner">
+            <div class="home-split"><h2 class="home-statement" id="homeServicesTitle"><span class="line-mask"><span class="line-content">Calm</span></span><span class="line-mask"><span class="line-content">Conscious</span></span><span class="line-mask"><span class="line-content">Spaces</span></span></h2><div></div></div>
+            <div class="home-split home-services-intro"><span class="home-section-index reveal-copy">02 <span></span> Our services</span><p class="home-small-copy reveal-copy">From a first plan to the final layer, every decision is made with intention.</p></div>
+            <div class="home-service-list" id="homeServiceList">
+              <div class="home-service-preview" id="homeServicePreview" aria-hidden="true"><img src="assets/figma/service-hover.png" alt="" /></div>
+              <a class="home-service-row" href="?page=services" data-route="services"><span class="home-service-number">01</span><span class="home-service-name">Space Planning</span><span class="home-service-copy">Thoughtful layouts that give daily life room to unfold.</span></a>
+              <a class="home-service-row" href="?page=service&amp;type=residential" data-service="residential"><span class="home-service-number">02</span><span class="home-service-name">Interior Architecture</span><span class="home-service-copy">The proportion, light and material language of a place.</span></a>
+              <a class="home-service-row" href="?page=service&amp;type=commercial" data-service="commercial"><span class="home-service-number">03</span><span class="home-service-name">Bespoke Furnishings</span><span class="home-service-copy">Pieces selected and made to belong in their setting.</span></a>
+              <a class="home-service-row" href="?page=services" data-route="services"><span class="home-service-number">04</span><span class="home-service-name">Styling &amp; Art Direction</span><span class="home-service-copy">A final layer of objects, texture and quiet character.</span></a>
+            </div>
+            <div class="home-split home-section-link"><div></div><a href="?page=services" data-route="services">View Services <span aria-hidden="true">↗</span></a></div>
+          </div>
+        </section>
+
+        <section class="home-about" id="about" aria-labelledby="homeAboutTitle">
+          <div class="home-editorial-inner">
+            <div class="home-split"><div></div><h2 class="home-statement" id="homeAboutTitle"><span class="line-mask"><span class="line-content">Calm</span></span><span class="line-mask"><span class="line-content">Conscious</span></span><span class="line-mask"><span class="line-content">Spaces</span></span></h2></div>
+            <div class="home-about-main home-split"><div class="home-about-image home-image-mask"><img src="assets/figma/about-portrait.png" alt="Interior designer in her studio" loading="lazy" /></div><div class="home-about-copy"><p class="home-large-copy reveal-copy">We design private homes for clients who want every detail considered: the proportion of a doorway, the stone under a hand, where the light falls at nine in the evening.</p><p class="home-small-copy reveal-copy">Inhouse is an interior design practice drawn to honest materials, natural light and rooms that feel like their owners.</p><a href="?page=about" data-route="about">More about us <span aria-hidden="true">↗</span></a></div></div>
+          </div>
+        </section>
+
+        <section class="closing">
           <div class="closing-meta"><span>02 / Our approach</span><span>Inhouse Interiors</span></div>
-          <h2 class="closing-title" id="about">
+          <h2 class="closing-title">
             <span class="line-mask"><span class="line-content">Spaces that</span></span>
             <span class="line-mask"><span class="line-content line-content--italic">feel like home.</span></span>
           </h2>
